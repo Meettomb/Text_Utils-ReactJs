@@ -38,23 +38,33 @@ export default function TextForm(props) {
         window.speechSynthesis.speak(speektext)
     }
 
-    const handleCopyclick = ()=>{
-        let copybord = document.getElementById("Formybox");
-        navigator.clipboard.writeText(copybord.value);
-        props.showAlert("Text copid successfully","success");
-        
-    }
+    const handleCopyClick = () => {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text)
+            .then(() => {
+              props.showAlert("Text copied successfully", "success");
+            })
+            .catch((error) => {
+              console.error('Error copying text:', error);
+              props.showAlert("Failed to copy text", "error");
+            });
+        } else {
+        //   console.error('');
+          props.showAlert("Clipboard API not available","danger"); 
+          // Handle the case where clipboard API is not available
+        }
+      };
 
-    const wordsCount = (str)=>{
-        let word
-        if(text === ""){
-            word=0;
-        }
-        else{
-            word = str.trim().split(/\s+/).length;  
-        }
-        return word;
-    }
+    // const wordsCount = (str)=>{
+    //     let word
+    //     if(text === ""){
+    //         word=0;
+    //     }
+    //     else{
+    //         word = str.trim().split(/\s+/).length;  
+    //     }
+    //     return word;
+    // }
 
     const [text,setText] = useState("");
 
@@ -66,19 +76,19 @@ export default function TextForm(props) {
           <textarea type="text" className="form-control" value={text} style={{backgroundColor: props.mode === 'dark'?'black':'white', color: props.mode === 'dark'?'white':'black'}} placeholder="Entar your Text hear" onChange={handleOnChange} id="Formybox" rows="10" />
         </div>
 
-        <button className="btn btn-primary row m-2" onClick={handleUpClick}>Convert to Uppercase</button>
-        <button className="btn btn-primary row m-2" onClick={handlelowerclick}>To LowerCase</button>
-        <button className="btn btn-primary row m-2" onClick={handleSpaceclick}>Remove extra Spase</button>
-        <button className="btn btn-primary row m-2" onClick={handleSpeackclick}>Speek</button>
-        <button className="btn btn-primary row m-2" onClick={handleCopyclick}>Copy</button>
-        <button className="btn btn-danger row m-2" onClick={handleclickclick}>Clear all text</button>
+        <button disabled={text.length === 0} className="btn btn-primary row m-2" onClick={handleUpClick}>Convert to Uppercase</button>
+        <button disabled={text.length === 0} className="btn btn-primary row m-2" onClick={handlelowerclick}>To LowerCase</button>
+        <button disabled={text.length === 0} className="btn btn-primary row m-2" onClick={handleSpaceclick}>Remove extra Spase</button>
+        <button disabled={text.length === 0} className="btn btn-primary row m-2" onClick={handleSpeackclick}>Speek</button>
+        <button disabled={text.length === 0} className="btn btn-primary row m-2" onClick={handleCopyClick}>Copy</button>
+        <button disabled={text.length === 0} className="btn btn-danger row m-2" onClick={handleclickclick}>Clear all text</button>
         
         <div className="container my-3">
             <h2>Your text Summary</h2>
-            <p>{wordsCount(text)} Words, {text.length} Characters</p>
+            <p>{text.split(/\s+/).filter((elemant)=>{return elemant.length!==0}).length} Words, {text.length} Characters</p>
             <p>Reading Meniut's: <b>{0.008 * text.split("").length}</b></p>
             <h2>Preview</h2>
-            <p>{text.length>0?text:"Entar Something in the textbox to preview it hear"}</p>
+            <p>{text.length>0?text:"Nothing to preview!"}</p>
         </div>
 
     </div>

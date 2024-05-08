@@ -18,20 +18,14 @@ function App() {
     });
     setTimeout(()=>{
       setAlert(null);
-    },1000)
+    },1800)
   }
 
     const toggleMode = ()=>{
-      let aboutButton1 = document.getElementById('aboutButton');
-      let aboutButton2 = document.getElementById('aboutButton2');
-      let aboutButton3 = document.getElementById('aboutButton3');
     if(mode === 'light'){
       setMode('dark');
       document.body.style.backgroundColor='#383737';
       showAlert("Dark Mode enable","success");
-      aboutButton1.style.border = '1px solid white';
-      aboutButton2.style.border = '1px solid white';
-      aboutButton3.style.border = '1px solid white';
     }
     else{
       setMode('light');
