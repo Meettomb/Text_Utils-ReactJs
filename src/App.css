@@ -1,6 +1,28 @@
 .App {
   text-align: center;
 }
+#alert{
+  animation:1.5s alert ease-in-out;
+  
+}
+@keyframes alert {
+  0%{
+    opacity: 0;
+  }
+  25%{
+    opacity: 0.8;
+  }
+  50%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0.3;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
 
 .App-logo {
   height: 40vmin;
